@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Fredoka, Nunito } from "next/font/google";
 import { AppProviders } from "@/components/providers/AppProviders";
+import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
 import { BackgroundShell, RoutePreloader } from "@/components/layout";
-import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo/site";
+import { buildRootLayoutMetadata } from "@/lib/seo/metadata";
+import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -17,14 +18,7 @@ const nunito = Nunito({
   weight: ["500", "600", "700", "800"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
-  title: {
-    default: `${SITE_NAME} — Challenge Your Knowledge`,
-    template: `%s | ${SITE_NAME}`,
-  },
-  description: SITE_DESCRIPTION,
-};
+export const metadata: Metadata = buildRootLayoutMetadata();
 
 export default function RootLayout({
   children,
@@ -39,6 +33,7 @@ export default function RootLayout({
           <RoutePreloader />
           {children}
         </AppProviders>
+        <VercelAnalytics />
       </body>
     </html>
   );

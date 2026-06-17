@@ -8,9 +8,11 @@
     "start": "next start",
     "lint": "eslint",
     "generate:icons": "node scripts/generate-icons.mjs",
+    "generate:favicons": "node scripts/generate-favicons.mjs",
     "process:icons": "node scripts/process-icon-backgrounds.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.40.0",
     "next": "16.2.9",
     "react": "19.2.4",
@@ -26,6 +28,7 @@
     "eslint-config-next": "16.2.9",
     "sharp": "^0.35.1",
     "tailwindcss": "^4",
+    "to-ico": "^1.1.5",
     "typescript": "^5"
   }
 }

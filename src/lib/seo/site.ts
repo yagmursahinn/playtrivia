@@ -2,8 +2,10 @@ export const SITE_NAME = "PlayTrivia";
 
 export const SITE_TAGLINE = "Challenge Your Knowledge";
 
+export const SITE_DEFAULT_TITLE = `${SITE_NAME} - ${SITE_TAGLINE}`;
+
 export const SITE_DESCRIPTION =
-  "A playful free trivia game with solo and multiplayer modes. Four exciting rounds. Endless fun.";
+  "Play exciting trivia quizzes across Science, Geography, History and General Knowledge. Four unique rounds. Endless fun.";
 
 /** Canonical production domain when NEXT_PUBLIC_SITE_URL is unset (e.g. local builds). */
 export const PRODUCTION_SITE_URL = "https://play-trivia.fun";

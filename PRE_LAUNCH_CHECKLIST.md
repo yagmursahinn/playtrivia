@@ -75,11 +75,15 @@ npm run lint && npm run build
 
 - [ ] `/sitemap.xml` is accessible and lists:
   - [ ] `/`
+  - [ ] `/daily-challenge`
   - [ ] `/general-knowledge`
   - [ ] `/science`
   - [ ] `/geography`
   - [ ] `/history`
-  - [ ] `/daily-challenge`
+  - [ ] `/solo`
+  - [ ] `/multiplayer`
+  - [ ] `/privacy`
+  - [ ] `/terms`
 - [ ] All sitemap URLs use **`https://play-trivia.fun`** (not preview or staging domains)
 - [ ] `/sitemap.xml` opens at `https://play-trivia.fun/sitemap.xml`
 - [ ] `/robots.txt` opens at `https://play-trivia.fun/robots.txt` and references `https://play-trivia.fun/sitemap.xml`
@@ -208,7 +212,7 @@ These are prepared but **not required** for initial launch:
 - [ ] Quiz transitions and animations run smoothly on mobile
 - [ ] Touch targets are usable on small screens
 - [ ] No layout shift on hero / category cards during load
-- [ ] Favicon and app icons display correctly in browser tab and bookmarks
+- [ ] Favicon and app icons display correctly in browser tab and bookmarks (`/favicon.ico`, `/apple-touch-icon.png`)
 
 ---
 

@@ -1,0 +1,22 @@
+{
+  "name": "PlayTrivia",
+  "short_name": "PlayTrivia",
+  "description": "A playful free trivia game with solo and multiplayer modes.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffdf1",
+  "theme_color": "#e2ef5f",
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
