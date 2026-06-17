@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Great Pyramid">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d6ecff"/>
+      <stop offset="100%" stop-color="#fff8ef"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect x="80" y="80" width="640" height="440" rx="32" fill="#ffffff" stroke="#1a1a2e" stroke-width="8" opacity="0.92"/>
+  <circle cx="400" cy="250" r="72" fill="#1a1a2e" opacity="0.08"/>
+  <text x="400" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#1a1a2e" opacity="0.18">?</text>
+  <text x="400" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#1a1a2e">Great Pyramid</text>
+  <text x="400" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#1a1a2e" opacity="0.55">PlayTrivia Picture Round</text>
+</svg>

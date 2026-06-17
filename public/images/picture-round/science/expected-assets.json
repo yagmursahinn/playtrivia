@@ -1,0 +1,19 @@
+{
+  "category": "science",
+  "format": "png",
+  "note": "Drop generated assets here. Missing files fall back to the PlayTrivia styled placeholder at runtime.",
+  "files": [
+    "dna.png",
+    "microscope.png",
+    "saturn.png",
+    "atom.png",
+    "moon.png",
+    "cell.png",
+    "flask.png",
+    "magnet.png",
+    "volcano.png",
+    "thermometer.png",
+    "telescope.png",
+    "forest.png"
+  ]
+}
