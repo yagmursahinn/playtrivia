@@ -1,7 +1,14 @@
-import { trackDailyChallengeStarted, trackQuizStarted } from "@/lib/analytics";
+import {
+  trackDailyChallengeStarted,
+  trackMultiplayerStarted,
+  trackQuizCompleted,
+  trackQuizStarted,
+  trackRoundCompleted,
+} from "@/lib/analytics";
 import { CATEGORIES } from "@/lib/constants/categories";
 import { buildDailyChallengeData } from "@/lib/retention/daily-challenge";
 import { getLocalDateKey } from "@/lib/retention/date";
+import { getKnowledgeRank } from "@/lib/retention/rank";
 import { buildQuizData, invalidateQuizDataCache } from "@/data/quiz";
 import type { QuizQuestion } from "@/data/quiz/types";
 import { clearQuizProgressStorage } from "@/lib/quiz/progress-storage";
@@ -101,6 +108,45 @@ function getAcceptedAnswersSnapshot(question: QuizQuestion | null): string[] | u
   return question.acceptedAnswers.map((entry) => entry.label);
 }
 
+function getPlayerAccuracy(player: Player): number {
+  if (player.answersTotal === 0) return 0;
+  return Math.round((player.answersCorrect / player.answersTotal) * 100);
+}
+
+function emitQuizCompletedAnalytics(state: QuizStore): void {
+  if (!state.sessionId || !state.mode) return;
+
+  const featuredPlayer = [...state.players].sort((a, b) => b.totalScore - a.totalScore)[0];
+  if (!featuredPlayer) return;
+
+  trackQuizCompleted({
+    mode: state.mode,
+    category: state.categoryId ?? "mixed",
+    isDaily: state.sessionType === "daily",
+    score: featuredPlayer.totalScore,
+    accuracy: getPlayerAccuracy(featuredPlayer),
+    totalQuestions: featuredPlayer.answersTotal,
+    rank: getKnowledgeRank(getPlayerAccuracy(featuredPlayer)).title,
+    sessionId: state.sessionId,
+  });
+}
+
+function emitRoundCompletedAnalytics(state: QuizStore, round: RoundState): void {
+  if (!state.sessionId || !state.mode || !state.categoryId) return;
+
+  const accuracy =
+    round.questionCount > 0 ? Math.round((round.correctAnswers / round.questionCount) * 100) : 0;
+
+  trackRoundCompleted({
+    mode: state.mode,
+    category: state.categoryId,
+    round: round.number,
+    score: round.roundScore,
+    accuracy,
+    sessionId: state.sessionId,
+  });
+}
+
 export const createQuizStoreActions = (
   set: (partial: Partial<QuizStore> | ((state: QuizStore) => Partial<QuizStore>)) => void,
   get: () => QuizStore,
@@ -156,7 +202,7 @@ export const createQuizStoreActions = (
       activePlayerIndex: 0,
       currentQuestionId: quizData.rounds[0]?.questions[0]?.id ?? null,
     });
-    trackDailyChallengeStarted({ dateKey });
+    trackDailyChallengeStarted();
   },
 
   initMultiplayer: (playerNames) => {
@@ -177,6 +223,7 @@ export const createQuizStoreActions = (
       activePlayerIndex: 0,
       currentQuestionId: quizData.rounds[0]?.questions[0]?.id ?? null,
     });
+    trackMultiplayerStarted({ playerCount: playerNames.length });
   },
 
   resetQuiz: () => {
@@ -191,9 +238,10 @@ export const createQuizStoreActions = (
 
     invalidateQuizDataCache(categoryId);
     const quizData = buildQuizData(categoryId);
+    const sessionId = createSessionId();
     set({
       ...initialQuizState,
-      sessionId: createSessionId(),
+      sessionId,
       mode: "solo",
       categoryId,
       sessionType: "standard",
@@ -212,6 +260,12 @@ export const createQuizStoreActions = (
       lastFeedback: null,
       startedAt: Date.now(),
       completedAt: null,
+    });
+    trackQuizStarted({
+      mode: "solo",
+      category: categoryId,
+      isDaily: false,
+      sessionId,
     });
   },
 
@@ -249,11 +303,12 @@ export const createQuizStoreActions = (
       })),
     });
 
-    if (state.mode) {
+    if (state.mode && state.categoryId) {
       trackQuizStarted({
-        categoryId: state.categoryId,
         mode: state.mode,
-        sessionType: state.sessionType ?? "standard",
+        category: state.categoryId,
+        isDaily: state.sessionType === "daily",
+        sessionId: state.sessionId,
       });
     }
   },
@@ -362,10 +417,12 @@ export const createQuizStoreActions = (
     const isLastQuestion = state.currentQuestionIndex >= round.questionCount - 1;
 
     if (isLastQuestion) {
+      const completedRound = { ...round, completed: true };
       const rounds = state.rounds.map((item, index) =>
-        index === state.currentRoundIndex ? { ...item, completed: true } : item,
+        index === state.currentRoundIndex ? completedRound : item,
       );
       set({ phase: "round-complete", rounds, lastFeedback: null });
+      emitRoundCompletedAnalytics(state, completedRound);
       return;
     }
 
@@ -413,6 +470,7 @@ export const createQuizStoreActions = (
         completedAt: Date.now(),
         completedPlayerIds,
       });
+      emitQuizCompletedAnalytics(get());
       return;
     }
 

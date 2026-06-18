@@ -28,8 +28,12 @@ export default function SoloSetupPage() {
   const [showOverwriteConfirm, setShowOverwriteConfirm] = useState(false);
   const [savedConflict, setSavedConflict] = useState<SavedProgressSummary | null>(null);
 
+  const handleCategorySelect = (categoryId: string) => {
+    trackCategorySelected({ category: categoryId });
+    setSelectedCategoryId(categoryId);
+  };
+
   const navigateToQuiz = (categoryId: string) => {
-    trackCategorySelected({ categoryId });
     router.push(getPlayPath(categoryId, "solo"));
   };
 
@@ -72,7 +76,7 @@ export default function SoloSetupPage() {
                 category={category}
                 questionCount={CATEGORY_COUNTS[category.id] ?? 0}
                 selected={selectedCategoryId === category.id}
-                onSelect={setSelectedCategoryId}
+                onSelect={handleCategorySelect}
               />
             ))}
 
@@ -82,7 +86,7 @@ export default function SoloSetupPage() {
                   category={MIXED_CATEGORY}
                   questionCount={CATEGORY_COUNTS[MIXED_CATEGORY.id] ?? 0}
                   selected={selectedCategoryId === MIXED_CATEGORY.id}
-                  onSelect={setSelectedCategoryId}
+                  onSelect={handleCategorySelect}
                 />
               </div>
             </div>

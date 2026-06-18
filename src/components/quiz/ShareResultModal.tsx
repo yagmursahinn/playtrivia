@@ -13,6 +13,7 @@ import {
   shareWithNativeApi,
   type ShareResultPayload,
 } from "@/lib/retention/share";
+import { trackShareClicked } from "@/lib/analytics";
 import { fadeIn, scaleIn, transitions } from "@/lib/theme/animations";
 import { cn } from "@/lib/utils/cn";
 
@@ -20,6 +21,7 @@ type ShareResultModalProps = {
   open: boolean;
   score: number;
   rankTitle: string;
+  category: string;
   onClose: () => void;
   onCopied: () => void;
   onShareError?: (message: string) => void;
@@ -74,6 +76,7 @@ export function ShareResultModal({
   open,
   score,
   rankTitle,
+  category,
   onClose,
   onCopied,
   onShareError,
@@ -91,11 +94,21 @@ export function ShareResultModal({
 
   const previewMessage = buildShareMessage(payload);
 
+  const recordShare = (method: "copy" | "x" | "whatsapp" | "native") => {
+    trackShareClicked({
+      method,
+      category,
+      score,
+      rank: rankTitle,
+    });
+  };
+
   const handleCopyLink = async () => {
     if (isCopying) return;
     setIsCopying(true);
     try {
       await copyShareResult(payload);
+      recordShare("copy");
       onCopied();
     } catch {
       onShareError?.("Unable to copy link right now.");
@@ -105,10 +118,12 @@ export function ShareResultModal({
   };
 
   const handleShareOnX = () => {
+    recordShare("x");
     openShareWindow(buildTwitterShareUrl(payload));
   };
 
   const handleShareOnWhatsApp = () => {
+    recordShare("whatsapp");
     openShareWindow(buildWhatsAppShareUrl(payload));
   };
 
@@ -116,6 +131,7 @@ export function ShareResultModal({
     if (!nativeShareSupported || isNativeSharing) return;
     setIsNativeSharing(true);
     try {
+      recordShare("native");
       await shareWithNativeApi(payload);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") {

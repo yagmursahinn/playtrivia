@@ -10,7 +10,6 @@ import {
   getAchievementDefinitions,
 } from "@/lib/retention/achievements";
 import { getLocalDateKey } from "@/lib/retention/date";
-import { trackQuizCompleted } from "@/lib/analytics";
 import { getKnowledgeRank, getKnowledgeRankStyle } from "@/lib/retention/rank";
 import { RANK_STYLES } from "@/lib/quiz/final-results";
 import { transitions } from "@/lib/theme/animations";
@@ -301,23 +300,11 @@ export function FinalResultScreen({
       isDailyChallenge: sessionType === "daily",
       playedDate: getLocalDateKey(new Date(completedAt)),
     });
-
-    if (featuredPlayer) {
-      trackQuizCompleted({
-        categoryId,
-        mode,
-        score: featuredPlayer.totalScore,
-        accuracy: featuredPlayer.accuracy,
-        sessionType: sessionType ?? "standard",
-      });
-    }
   }, [
     featuredPlayer,
     completedAt,
     sessionAchievementIds,
     sessionType,
-    categoryId,
-    mode,
     recordQuizCompletion,
   ]);
 
@@ -337,6 +324,7 @@ export function FinalResultScreen({
           open={isShareOpen}
           score={featuredPlayer.totalScore}
           rankTitle={rank.title}
+          category={categoryId ?? "mixed"}
           onClose={() => setIsShareOpen(false)}
           onCopied={() => showToast("Copied to clipboard!")}
           onShareError={(message) => showToast(message)}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { trackResumeQuizClicked } from "@/lib/analytics";
 import { useSavedQuizProgress } from "@/hooks/quiz/use-saved-quiz-progress";
 import { getCategoryLabel, getResumePathForSavedProgress } from "@/lib/quiz/routes";
 import { cn } from "@/lib/utils/cn";
@@ -44,6 +45,12 @@ export function ContinueQuizBanner({ className }: ContinueQuizBannerProps) {
           variant="secondary"
           size="lg"
           className="shrink-0 sm:min-w-[11rem]"
+          onClick={() => {
+            trackResumeQuizClicked({
+              category: saved.categoryId,
+              mode: saved.mode,
+            });
+          }}
         >
           Continue Quiz
         </Button>
