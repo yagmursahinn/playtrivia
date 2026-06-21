@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { VercelAnalytics } from "@/components/analytics/VercelAnalytics";
-import { BackgroundShell, RoutePreloader } from "@/components/layout";
+import { BackgroundShell, RoutePreloader, SiteFooter } from "@/components/layout";
 import { buildRootLayoutMetadata } from "@/lib/seo/metadata";
 import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
@@ -33,6 +33,7 @@ export default function RootLayout({
           <RoutePreloader />
           {children}
         </AppProviders>
+        <SiteFooter />
         <VercelAnalytics />
       </body>
     </html>

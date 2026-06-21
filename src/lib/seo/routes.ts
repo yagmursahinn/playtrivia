@@ -19,6 +19,8 @@ export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
   ...CATEGORY_SITEMAP_ENTRIES,
   { path: "/solo", changeFrequency: "monthly", priority: 0.6 },
   { path: "/multiplayer", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/about", changeFrequency: "monthly", priority: 0.4 },
+  { path: "/contact", changeFrequency: "monthly", priority: 0.4 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
 ];

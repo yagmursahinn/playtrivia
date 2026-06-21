@@ -4,3 +4,4 @@ export { HeroSection } from "./HeroSection";
 export { PageContainer } from "./PageContainer";
 export { PageHeader } from "./PageHeader";
 export { RoutePreloader } from "./RoutePreloader";
+export { SiteFooter } from "./SiteFooter";
