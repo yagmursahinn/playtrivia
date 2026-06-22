@@ -10,7 +10,6 @@ import { transitions } from "@/lib/theme/animations";
 import type { QuestionType } from "@/data/quiz/types";
 import { ROUND_META } from "@/data/quiz/rounds";
 import type { RoundState } from "@/types/quiz";
-import { cn } from "@/lib/utils/cn";
 
 type RoundIntroScreenProps = {
   round: RoundState;
@@ -80,56 +79,58 @@ function RoundExampleCard({ config }: { config: RoundPreviewConfig }) {
   const { example, questionType } = config;
 
   return (
-    <div className="rounded-2xl border-2 border-dark/10 bg-white/80 p-4 shadow-[0_8px_24px_rgba(26,26,46,0.06)] sm:p-5">
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <QuestionTypeBadge type={questionType} />
-        <span className="font-body text-[10px] font-bold uppercase tracking-wide text-dark/40">
-          Example
+    <div className="rounded-2xl border-2 border-dashed border-blue/35 bg-blue/5 p-4 sm:p-5">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <span className="rounded-full border-2 border-blue/40 bg-blue/15 px-3 py-1 font-display text-xs font-extrabold uppercase tracking-[0.14em] text-blue">
+          Example Question
         </span>
+        <QuestionTypeBadge type={questionType} />
       </div>
 
-      {example.showImage && (
-        <div className="mb-3 flex h-24 items-center justify-center rounded-xl border-2 border-dashed border-pink/25 bg-gradient-to-br from-pink/10 via-blue/10 to-lime/10 sm:h-28">
-          <span className="font-body text-xs font-semibold text-dark/40">Picture prompt</span>
-        </div>
-      )}
+      <div className="space-y-2 font-body text-sm font-semibold leading-relaxed text-dark/60">
+        <p>This question is only a preview of the round and does not affect your score.</p>
+        <p>Your real quiz begins after this screen.</p>
+      </div>
 
-      <p className="font-display text-sm font-bold leading-snug text-dark sm:text-base">
-        {example.text}
-      </p>
+      <div className="mt-4 rounded-2xl border-2 border-dark/8 bg-white/60 p-4 opacity-90 sm:p-5">
+        {example.showImage && (
+          <div className="mb-3 flex h-24 items-center justify-center rounded-xl border-2 border-dashed border-pink/25 bg-gradient-to-br from-pink/10 via-blue/10 to-lime/10 sm:h-28">
+            <span className="font-body text-xs font-semibold text-dark/40">Picture prompt</span>
+          </div>
+        )}
 
-      {example.options && (
-        <div className="mt-3 space-y-2">
-          {example.options.map((option, index) => (
-            <div
-              key={option}
-              className={cn(
-                "rounded-xl border-2 px-3 py-2 font-body text-xs font-semibold sm:text-sm",
-                index === 1
-                  ? "border-pink/40 bg-pink/10 text-dark"
-                  : "border-dark/8 bg-cream/60 text-dark/65",
-              )}
-            >
-              {option}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {example.blankLabel && (
-        <div className="mt-3">
-          <label className="font-body text-[10px] font-bold uppercase tracking-wide text-dark/45">
-            {example.blankLabel}
-          </label>
-          <div className="mt-1.5 h-10 rounded-xl border-2 border-dashed border-blue/30 bg-blue/5" />
-        </div>
-      )}
-
-      {example.hint && (
-        <p className="mt-3 rounded-xl border-2 border-lime/30 bg-lime/10 px-3 py-2 font-body text-xs font-semibold text-dark/60">
-          {example.hint}
+        <p className="font-display text-sm font-bold leading-snug text-dark/75 sm:text-base">
+          {example.text}
         </p>
-      )}
+
+        {example.options && (
+          <div className="mt-3 space-y-2">
+            {example.options.map((option) => (
+              <div
+                key={option}
+                className="rounded-xl border-2 border-dashed border-dark/12 bg-cream/50 px-3 py-2 font-body text-xs font-semibold text-dark/50 sm:text-sm"
+              >
+                {option}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {example.blankLabel && (
+          <div className="mt-3">
+            <label className="font-body text-[10px] font-bold uppercase tracking-wide text-dark/45">
+              {example.blankLabel}
+            </label>
+            <div className="mt-1.5 h-10 rounded-xl border-2 border-dashed border-blue/30 bg-blue/5" />
+          </div>
+        )}
+
+        {example.hint && (
+          <p className="mt-3 rounded-xl border-2 border-dashed border-lime/30 bg-lime/10 px-3 py-2 font-body text-xs font-semibold text-dark/55">
+            {example.hint}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -197,8 +198,12 @@ export function RoundIntroScreen({ round, playerName, onStart }: RoundIntroScree
           className="order-1 lg:order-2"
           style={{ willChange: "transform, opacity" }}
         >
-          <div className="rounded-3xl border-[3px] border-dark/10 bg-white/85 p-5 shadow-[0_12px_40px_rgba(26,26,46,0.08)] sm:p-6 lg:p-7">
-            <div className="flex flex-col items-center text-center">
+          <div className="rounded-3xl border-[3px] border-dashed border-blue/25 bg-blue/5 p-5 shadow-[0_12px_40px_rgba(26,26,46,0.06)] sm:p-6 lg:p-7">
+            <p className="text-center font-display text-xs font-extrabold uppercase tracking-[0.18em] text-blue">
+              Round Preview
+            </p>
+
+            <div className="mt-4 flex flex-col items-center text-center">
               <div className="flex w-full items-center justify-center rounded-2xl border-2 border-dark/8 bg-gradient-to-br from-pink/10 via-cream to-blue/10 px-6 py-5 sm:py-6">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.94 }}
