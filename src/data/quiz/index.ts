@@ -9,7 +9,7 @@ import type { ContentRoundId } from "@/content/questions/types";
 import { selectQuestionsForRounds } from "@/content/questions/select";
 import type { QuizCategoryId, QuizData, QuizQuestion, QuizRoundData } from "./types";
 
-const QUIZ_DATA_VERSION = 6;
+const QUIZ_DATA_VERSION = 7;
 
 const quizDataCache = new Map<string, QuizData>();
 
