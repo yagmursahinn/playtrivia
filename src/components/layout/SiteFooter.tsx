@@ -3,6 +3,7 @@ import { SITE_NAME } from "@/lib/seo/site";
 import { cn } from "@/lib/utils/cn";
 
 const FOOTER_LINKS = [
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy", label: "Privacy" },

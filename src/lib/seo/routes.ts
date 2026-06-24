@@ -1,3 +1,4 @@
+import { getAllBlogPosts } from "@/content/blog";
 import { CATEGORY_LANDING_SLUGS } from "./categories";
 
 export type SitemapEntry = {
@@ -12,6 +13,15 @@ const CATEGORY_SITEMAP_ENTRIES: SitemapEntry[] = CATEGORY_LANDING_SLUGS.map((slu
   priority: 0.85,
 }));
 
+const BLOG_SITEMAP_ENTRIES: SitemapEntry[] = [
+  { path: "/blog", changeFrequency: "weekly", priority: 0.5 },
+  ...getAllBlogPosts().map((post) => ({
+    path: `/blog/${post.slug}` as const,
+    changeFrequency: "monthly" as const,
+    priority: 0.45,
+  })),
+];
+
 /** Public routes included in /sitemap.xml for https://play-trivia.fun */
 export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
@@ -19,6 +29,7 @@ export const PUBLIC_SITEMAP_ENTRIES: SitemapEntry[] = [
   ...CATEGORY_SITEMAP_ENTRIES,
   { path: "/solo", changeFrequency: "monthly", priority: 0.6 },
   { path: "/multiplayer", changeFrequency: "monthly", priority: 0.6 },
+  ...BLOG_SITEMAP_ENTRIES,
   { path: "/about", changeFrequency: "monthly", priority: 0.4 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.4 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },

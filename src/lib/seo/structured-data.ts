@@ -1,3 +1,4 @@
+import type { BlogPost } from "@/content/blog";
 import { getCategoryLandingConfig, getCategoryLandingStats, type CategoryLandingSlug } from "./categories";
 import { FAQ_ITEMS } from "./faq";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "./site";
@@ -88,6 +89,34 @@ export function buildFaqPageJsonLd() {
 
 export function buildHomeJsonLd() {
   return [buildWebSiteJsonLd(), buildHomeGameJsonLd(), buildFaqPageJsonLd()];
+}
+
+export function buildArticleJsonLd(post: BlogPost) {
+  const url = absoluteUrl(`/blog/${post.slug}`);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    author: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: absoluteUrl("/"),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: absoluteUrl("/"),
+    },
+  };
 }
 
 export function buildOrganizationTaglineJsonLd() {
