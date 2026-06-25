@@ -301,6 +301,11 @@ export const SCIENCE_QUESTIONS = buildCategoryQuestions("science", [
       accept("Krypton", "kr"),
       accept("Xenon", "xe"),
       accept("Radon", "rn"),
+      accept("Oganesson", "oganesson"),
+      accept("Ununoctium", "ununoctium"),
+      accept("Ununseptium", "ununseptium"),
+      accept("Ununseptium", "ununseptium"),
+    
     ],
   },
   {
@@ -360,6 +365,7 @@ export const SCIENCE_QUESTIONS = buildCategoryQuestions("science", [
       accept("Eye wash station", "eyewash station", "eye wash"),
       accept("Fire extinguisher"),
       accept("Apron", "lab apron"),
+      
     ],
   },
   {

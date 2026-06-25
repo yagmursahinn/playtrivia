@@ -10,6 +10,7 @@ import {
   shakeAnimation,
   transitions,
 } from "@/lib/theme/animations";
+import { EnumerationAcceptedAnswersList } from "@/components/quiz/EnumerationAcceptedAnswersList";
 import type { FeedbackState } from "@/types/quiz";
 import { cn } from "@/lib/utils/cn";
 
@@ -38,6 +39,7 @@ export function FeedbackOverlay({ feedback, onContinue }: FeedbackOverlayProps) 
   const earnedPoints = feedback.pointsEarned > 0;
   const showConfetti = isFullyCorrect || (earnedPoints && !isPartial && !isEnumeration);
   const showShake = !earnedPoints || (isEnumeration && !isPartial && !isFullyCorrect);
+  const enumerationPoolSize = feedback.acceptedAnswers?.length ?? 0;
 
   const headline = isEnumeration
     ? isFullyCorrect
@@ -118,22 +120,22 @@ export function FeedbackOverlay({ feedback, onContinue }: FeedbackOverlayProps) 
           )}
 
           {isFullyCorrect && (
-            <AnswerList
-              title="Other possible answers"
+            <EnumerationAcceptedAnswersList
+              totalAcceptedCount={enumerationPoolSize}
               answers={feedback.otherPossibleAnswers ?? []}
             />
           )}
 
           {!isFullyCorrect && isPartial && (
-            <AnswerList
-              title="Examples of accepted answers"
+            <EnumerationAcceptedAnswersList
+              totalAcceptedCount={enumerationPoolSize}
               answers={feedback.exampleAnswers ?? []}
             />
           )}
 
           {!isFullyCorrect && isEnumeration && !isPartial && (
-            <AnswerList
-              title="Examples of accepted answers"
+            <EnumerationAcceptedAnswersList
+              totalAcceptedCount={enumerationPoolSize}
               answers={feedback.exampleAnswers ?? []}
             />
           )}

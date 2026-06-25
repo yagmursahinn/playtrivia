@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { EnumerationAcceptedAnswersList } from "@/components/quiz/EnumerationAcceptedAnswersList";
 import { fadeInUp, scaleIn, transitions } from "@/lib/theme/animations";
 import type { FeedbackState } from "@/types/quiz";
 import { cn } from "@/lib/utils/cn";
@@ -40,6 +41,7 @@ export function FeedbackScreen({ feedback, onContinue }: FeedbackScreenProps) {
   const isFullyCorrect = Boolean(feedback.isFullyCorrect);
   const isPartial = Boolean(feedback.isPartial);
   const earnedPoints = feedback.pointsEarned > 0;
+  const enumerationPoolSize = feedback.acceptedAnswers?.length ?? 0;
 
   const headline = isEnumeration
     ? isFullyCorrect
@@ -145,24 +147,48 @@ export function FeedbackScreen({ feedback, onContinue }: FeedbackScreenProps) {
       )}
 
       {isFullyCorrect && (
-        <AnswerList
-          title="Other possible answers"
-          answers={feedback.otherPossibleAnswers ?? []}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.fast, delay: 0.12 }}
+          className="w-full"
+        >
+          <EnumerationAcceptedAnswersList
+            totalAcceptedCount={enumerationPoolSize}
+            answers={feedback.otherPossibleAnswers ?? []}
+            className="mt-5"
+          />
+        </motion.div>
       )}
 
       {!isFullyCorrect && isPartial && (
-        <AnswerList
-          title="Examples of accepted answers"
-          answers={feedback.exampleAnswers ?? []}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.fast, delay: 0.12 }}
+          className="w-full"
+        >
+          <EnumerationAcceptedAnswersList
+            totalAcceptedCount={enumerationPoolSize}
+            answers={feedback.exampleAnswers ?? []}
+            className="mt-5"
+          />
+        </motion.div>
       )}
 
       {!isFullyCorrect && isEnumeration && !isPartial && (
-        <AnswerList
-          title="Examples of accepted answers"
-          answers={feedback.exampleAnswers ?? []}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.fast, delay: 0.12 }}
+          className="w-full"
+        >
+          <EnumerationAcceptedAnswersList
+            totalAcceptedCount={enumerationPoolSize}
+            answers={feedback.exampleAnswers ?? []}
+            className="mt-5"
+          />
+        </motion.div>
       )}
 
       <motion.div

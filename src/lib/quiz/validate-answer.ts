@@ -14,7 +14,7 @@ import {
   getMaxPointsForQuestion,
 } from "@/lib/quiz/scoring";
 
-const EXAMPLE_ANSWER_LIMIT = 5;
+const EXAMPLE_ANSWER_LIMIT = 6;
 
 function getRequiredCount(question: EnumerationQuestion): number {
   if (typeof question.count === "number" && question.count > 0) {
