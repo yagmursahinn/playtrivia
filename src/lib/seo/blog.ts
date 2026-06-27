@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { BlogPost } from "@/content/blog";
+import type { BlogArticle } from "@/content/blog";
 import { DEFAULT_OG_IMAGE } from "./metadata";
 import { absoluteUrl, SITE_NAME } from "./site";
 
@@ -12,6 +12,14 @@ export function buildBlogIndexMetadata(): Metadata {
   return {
     title,
     description,
+    keywords: [
+      "trivia blog",
+      "quiz tips",
+      "science trivia",
+      "geography trivia",
+      "history quiz",
+      "general knowledge",
+    ],
     alternates: {
       canonical: absoluteUrl(path),
     },
@@ -33,30 +41,35 @@ export function buildBlogIndexMetadata(): Metadata {
   };
 }
 
-export function buildBlogArticleMetadata(post: BlogPost): Metadata {
-  const path = `/blog/${post.slug}`;
-  const fullTitle = `${post.title} | ${SITE_NAME}`;
+export function buildBlogArticleMetadata(article: BlogArticle): Metadata {
+  const path = `/blog/${article.slug}`;
+  const baseTitle = article.seoTitle ?? article.title;
+  const fullTitle = baseTitle.includes(SITE_NAME)
+    ? baseTitle
+    : `${baseTitle} | ${SITE_NAME}`;
 
   return {
     title: fullTitle,
-    description: post.description,
+    description: article.description,
+    keywords: article.keywords,
     alternates: {
       canonical: absoluteUrl(path),
     },
     openGraph: {
       title: fullTitle,
-      description: post.description,
+      description: article.description,
       url: absoluteUrl(path),
       siteName: SITE_NAME,
       locale: "en_US",
       type: "article",
-      publishedTime: post.publishedAt,
+      publishedTime: article.publishDate,
+      tags: article.keywords,
       images: [DEFAULT_OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
-      description: post.description,
+      description: article.description,
       images: [DEFAULT_OG_IMAGE.url],
     },
   };

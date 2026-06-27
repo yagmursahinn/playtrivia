@@ -6,7 +6,7 @@ type BlogContentProps = {
 
 type ContentBlock =
   | { type: "paragraph"; text: string }
-  | { type: "heading"; text: string }
+  | { type: "heading"; level: 2 | 3; text: string }
   | { type: "list"; items: string[] };
 
 function parseBlogContent(content: string): ContentBlock[] {
@@ -17,8 +17,19 @@ function parseBlogContent(content: string): ContentBlock[] {
     const lines = section.split("\n").map((line) => line.trim()).filter(Boolean);
     if (lines.length === 0) continue;
 
+    if (lines[0].startsWith("### ")) {
+      blocks.push({ type: "heading", level: 3, text: lines[0].slice(4).trim() });
+      const remainder = lines.slice(1);
+      if (remainder.length === 1 && !remainder[0].startsWith("- ")) {
+        blocks.push({ type: "paragraph", text: remainder[0] });
+      } else if (remainder.length > 0) {
+        appendLines(blocks, remainder);
+      }
+      continue;
+    }
+
     if (lines[0].startsWith("## ")) {
-      blocks.push({ type: "heading", text: lines[0].slice(3).trim() });
+      blocks.push({ type: "heading", level: 2, text: lines[0].slice(3).trim() });
       const remainder = lines.slice(1);
       if (remainder.length === 1 && !remainder[0].startsWith("- ")) {
         blocks.push({ type: "paragraph", text: remainder[0] });
@@ -64,6 +75,17 @@ export function BlogContent({ content }: BlogContentProps) {
     <div className="space-y-5 font-body text-base font-semibold leading-relaxed text-dark/80">
       {blocks.map((block, index) => {
         if (block.type === "heading") {
+          if (block.level === 3) {
+            return (
+              <h3
+                key={`${block.text}-${index}`}
+                className="pt-1 font-display text-lg font-extrabold text-dark sm:text-xl"
+              >
+                {block.text}
+              </h3>
+            );
+          }
+
           return (
             <h2
               key={`${block.text}-${index}`}

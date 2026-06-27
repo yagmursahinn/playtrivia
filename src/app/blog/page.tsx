@@ -1,12 +1,12 @@
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { Header, PageContainer, PageHeader } from "@/components/layout";
-import { getAllBlogPosts } from "@/content/blog";
+import { getAllBlogArticles } from "@/content/blog";
 import { buildBlogIndexMetadata } from "@/lib/seo/blog";
 
 export const metadata = buildBlogIndexMetadata();
 
 export default function BlogIndexPage() {
-  const posts = getAllBlogPosts();
+  const posts = getAllBlogArticles();
 
   return (
     <>

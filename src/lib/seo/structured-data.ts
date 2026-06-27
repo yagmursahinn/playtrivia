@@ -1,4 +1,4 @@
-import type { BlogPost } from "@/content/blog";
+import type { BlogArticle, BlogFaqItem } from "@/content/blog";
 import { getCategoryLandingConfig, getCategoryLandingStats, type CategoryLandingSlug } from "./categories";
 import { FAQ_ITEMS } from "./faq";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "./site";
@@ -91,17 +91,19 @@ export function buildHomeJsonLd() {
   return [buildWebSiteJsonLd(), buildHomeGameJsonLd(), buildFaqPageJsonLd()];
 }
 
-export function buildArticleJsonLd(post: BlogPost) {
-  const url = absoluteUrl(`/blog/${post.slug}`);
+export function buildArticleJsonLd(article: BlogArticle) {
+  const url = absoluteUrl(`/blog/${article.slug}`);
 
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
+    headline: article.title,
+    description: article.description,
+    datePublished: article.publishDate,
+    dateModified: article.publishDate,
     url,
+    keywords: article.keywords.join(", "),
+    articleSection: article.category,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -116,6 +118,48 @@ export function buildArticleJsonLd(post: BlogPost) {
       name: SITE_NAME,
       url: absoluteUrl("/"),
     },
+  };
+}
+
+export function buildBlogFaqJsonLd(items: BlogFaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"),
+      },
+    })),
+  };
+}
+
+export function buildBlogBreadcrumbJsonLd(article: BlogArticle) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: absoluteUrl("/"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: absoluteUrl("/blog"),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.title,
+        item: absoluteUrl(`/blog/${article.slug}`),
+      },
+    ],
   };
 }
 

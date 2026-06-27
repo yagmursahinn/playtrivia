@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from "@/content/blog";
+import { getAllBlogArticles } from "@/content/blog";
 import { CATEGORY_LANDING_SLUGS } from "./categories";
 
 export type SitemapEntry = {
@@ -15,7 +15,7 @@ const CATEGORY_SITEMAP_ENTRIES: SitemapEntry[] = CATEGORY_LANDING_SLUGS.map((slu
 
 const BLOG_SITEMAP_ENTRIES: SitemapEntry[] = [
   { path: "/blog", changeFrequency: "weekly", priority: 0.5 },
-  ...getAllBlogPosts().map((post) => ({
+  ...getAllBlogArticles().map((post) => ({
     path: `/blog/${post.slug}` as const,
     changeFrequency: "monthly" as const,
     priority: 0.45,

@@ -1,14 +1,11 @@
-import type { BlogPost } from "../types";
+import { defineBlogArticle } from "../template";
 
-export const top20GeographyTriviaQuestions: BlogPost = {
-  slug: "top-20-geography-trivia-questions",
-  title: "Top 20 Geography Trivia Questions",
-  description:
-    "Test your knowledge of countries, capitals, landmarks, rivers, mountains, and world geography with these fun trivia questions.",
-  publishedAt: "2025-06-21",
-  content: `World geography is one of the most popular trivia topics — and for good reason. From capital cities to mountain ranges, geography questions reward curiosity about the planet we share. Use this list to quiz friends, warm up before a round, or sharpen your skills before a full [Geography quiz on PlayTrivia](/geography).
+export const top20GeographyTriviaQuestions = defineBlogArticle(
+  "top-20-geography-trivia-questions",
+  {
+    introduction: `World geography is one of the most popular trivia topics — and for good reason. From capital cities to mountain ranges, geography questions reward curiosity about the planet we share. Use this list to quiz friends, warm up before a round, or sharpen your skills before a full [Geography quiz on PlayTrivia](/geography).`,
 
-## Countries & Capitals
+    mainContent: `## Countries & Capitals
 
 1. What is the capital of Australia?
 Answer: Canberra. Many people guess Sydney or Melbourne, but Canberra has been the capital since 1927.
@@ -74,11 +71,11 @@ Answer: Ethiopia. The name change to Ethiopia became official in the 20th centur
 Answer: Russia. It spans eleven time zones across Europe and Asia.
 
 20. Which continent has no permanent human population?
-Answer: Antarctica. Scientists and support staff live there temporarily, but there is no native population.
+Answer: Antarctica. Scientists and support staff live there temporarily, but there is no native population.`,
 
-## Keep practising
-
-Geography trivia rewards steady practice. Capitals, borders, and physical features start to stick once you see them in different contexts. For a full challenge with picture rounds and open-ended questions, try the [Geography category on PlayTrivia](/geography) or jump into [solo mode](/solo) and pick your favourite topic.
-
-Ready to test yourself? [Play a quiz on PlayTrivia](/solo).`,
-};
+    triviaTips: `- Group questions by theme — capitals, rivers, landmarks — to build mental maps faster.
+- Say answers out loud before checking; active recall sticks better than silent reading.
+- Mix map-based and fact-based questions to cover both visual and factual geography.
+- For a full challenge with picture rounds and open-ended questions, try the [Geography category on PlayTrivia](/geography) or jump into [solo mode](/solo).`,
+  },
+);

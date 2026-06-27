@@ -1,14 +1,11 @@
-import type { BlogPost } from "../types";
+import { defineBlogArticle } from "../template";
 
-export const famousExplorersTriviaQuestions: BlogPost = {
-  slug: "famous-explorers-trivia-questions",
-  title: "15 Famous Explorers Trivia Questions",
-  description:
-    "Explore history through famous explorers, voyages, discoveries, and world-changing journeys.",
-  publishedAt: "2025-06-22",
-  content: `Exploration shaped the modern world — from trade routes across Asia to voyages that revealed new continents. These fifteen questions cover famous explorers, their achievements, and the eras they lived in. When you are ready for a full round of history questions, try the [History quiz on PlayTrivia](/history).
+export const famousExplorersTriviaQuestions = defineBlogArticle(
+  "famous-explorers-trivia-questions",
+  {
+    introduction: `Exploration shaped the modern world — from trade routes across Asia to voyages that revealed new continents. These fifteen questions cover famous explorers, their achievements, and the eras they lived in. When you are ready for a full round of history questions, try the [History quiz on PlayTrivia](/history).`,
 
-## Age of Discovery
+    mainContent: `## Age of Discovery
 
 1. Which explorer completed the first circumnavigation of the Earth?
 Answer: Ferdinand Magellan's expedition (1519–1522). Magellan died in the Philippines, but his crew finished the voyage under Juan Sebastián Elcano.
@@ -57,11 +54,11 @@ Answer: David Livingstone. He is famous for his search for the Nile's source and
 Answer: Jacques Cartier. He made three voyages in the 1530s and 1540s.
 
 15. Which explorer's crew was the first to sail around the southern tip of South America?
-Answer: Ferdinand Magellan. The strait at the tip of the continent is named the Strait of Magellan.
+Answer: Ferdinand Magellan. The strait at the tip of the continent is named the Strait of Magellan.`,
 
-## Explore more history
-
-Exploration trivia blends geography, biography, and world events — which makes it perfect for mixed quiz rounds. If you enjoyed these questions, put your knowledge to the test in a full [History quiz on PlayTrivia](/history) or switch to [solo mode](/solo) and challenge yourself across every category.
-
-Ready to test yourself? [Play a quiz on PlayTrivia](/solo).`,
-};
+    triviaTips: `- Link explorers to the regions they mapped — it helps you remember names in context.
+- Note the century each explorer lived in; timelines make cause-and-effect easier to recall.
+- Exploration trivia blends geography, biography, and world events — perfect for mixed quiz rounds.
+- Put your knowledge to the test in a full [History quiz on PlayTrivia](/history) or switch to [solo mode](/solo) and challenge yourself across every category.`,
+  },
+);
